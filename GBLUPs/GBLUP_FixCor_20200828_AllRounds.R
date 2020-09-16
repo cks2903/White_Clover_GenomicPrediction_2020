@@ -175,7 +175,7 @@ d005 = d05[-WeirdMeasurementBarcodesBarcodesidx,]
   d6=d6[order(d6$Clovershort),] # make sure it is in alphabetic order like the GRM
 }
 
-# Correct GPD for the part of initial size that does not carry genetic information
+# Correct GPD for the full effect of initial size
 {
  
   fit <- lmer(growth_per_day ~ InitialSize + (1|Clover), data=d6) 
