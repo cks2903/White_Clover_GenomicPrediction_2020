@@ -519,8 +519,8 @@ write.table(Combined,filename1,sep="\t",quote=F)
 # correlations
 Combined_withoutNAPheno=na.omit(Combined)
 
-All1=aggregate(as.numeric(Combined_withoutNAPheno[, 2]), list(Combined_withoutNAPheno[,1]), mean) # mean observed
-All2=aggregate(as.numeric(Combined_withoutNAPheno[, 3]), list(Combined_withoutNAPheno[,1]), mean) # mean GEBV
+All1=aggregate(as.numeric(as.character(Combined_withoutNAPheno[, 2])), list(Combined_withoutNAPheno[,1]), mean) # mean observed
+All2=aggregate(as.numeric(as.character(Combined_withoutNAPheno[, 3])), list(Combined_withoutNAPheno[,1]), mean) # mean GEBV
 correlation=cor(All1[,2],All2[,2]) #means of replicates
 correlation
 
