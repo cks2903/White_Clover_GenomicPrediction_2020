@@ -1,4 +1,3 @@
-
 library(ggplot2)
 library(multcompView)
 library(forcats)
@@ -27,14 +26,14 @@ length(unique(dataNew$Cross))==9
 
 #png(file="F1distribution_9pop.png",width=20,height=12,units="cm",res=300)
 p=ggplot(dataNew,aes(x=reorder(Cross,X20200226_dryweight,FUN=median), y=X20200226_dryweight)) + 
-  geom_boxplot(fill="steelblue",alpha=0.7)+
+  geom_boxplot(fill="#4A9667",alpha=0.9)+
   labs(title="Dry weight of F1 populations",x="F1 Population", y = "Dry weight")+
   theme_classic() +theme(axis.text.x = element_text(size = 10, angle = 90,hjust=1),axis.text.y = element_text(size = 10),axis.title=element_text(size=15))
-p + geom_jitter(shape=16, position=position_jitter(0.2))
+p + geom_jitter(shape=16, position=position_jitter(0.2), size =5)
 
 #dev.off()
 fit <- aov(X20200226_dryweight~ factor(Cross)  , data=dataNew)
 results <- TukeyHSD(fit, ordered=TRUE)
 multcompLetters4(fit, results)
-ggsave("/Volumes/NAT_MBG-PMg/Cathrine/Nchain/Genomic_prediction_yield_July2020/V2_LessHarsh_SaraQualityFilter/Article_GP_gpd/F1distribution_9pop.pdf", width =25, height = 15,units = "cm")
+ggsave("/Volumes/NAT_MBG-PMg/Cathrine/Nchain/Genomic_prediction_yield_July2020/V2_LessHarsh_SaraQualityFilter/Article_GP_gpd/F1distribution_9pop.pdf", width =60, height = 20,units = "cm")
 
