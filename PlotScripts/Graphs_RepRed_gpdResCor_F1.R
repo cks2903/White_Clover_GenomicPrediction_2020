@@ -539,11 +539,11 @@ p1=ggplot(AllDataForplotting, aes(x=Replicates, y=correlation)) +
   scale_x_reverse() +
   xlab("Replicates") +
   ylab("Correlation") +
-  theme_bw()
+  theme_classic()
 
 p1
 
-ggsave('/Volumes/NAT_MBG-PMg/Cathrine/Nchain/Genomic_prediction_yield_July2020/V2_LessHarsh_SaraQualityFilter/Replicate_Reduction_20200831/Figures/cor_of_gpdResCorAndGEBV_F1prediction.png', plot = p1, width = 15, height = 12, unit = 'cm')
+ggsave('/Volumes/NAT_MBG-PMg/Cathrine/Nchain/Genomic_prediction_yield_July2020/V2_LessHarsh_SaraQualityFilter/Replicate_Reduction_20200831/Figures/cor_of_gpdResCorAndGEBV_F1prediction.pdf', plot = p1, width = 15, height = 15, unit = 'cm')
 
 
 # Correlation between gpd_ResCor and GEBVs, means with standard deviations
@@ -563,11 +563,11 @@ p3=ggplot(Means_cor_gpdResCor_GEBV, aes(x=Replicates, y=Means_cor_gpdResCor_GEBV
   scale_x_reverse() +
   xlab("Replicates") +
   ylab("Correlation") +
-  theme_bw()
+  theme_classic()
 
 p3
 
-ggsave('/Volumes/NAT_MBG-PMg/Cathrine/Nchain/Genomic_prediction_yield_July2020/V2_LessHarsh_SaraQualityFilter/Replicate_Reduction_20200831/Figures/cor_of_gpdResCorAndGEBV_F1_averages_withSD.png', plot = p3, width = 15, height = 12, unit = 'cm')
+ggsave('/Volumes/NAT_MBG-PMg/Cathrine/Nchain/Genomic_prediction_yield_July2020/V2_LessHarsh_SaraQualityFilter/Replicate_Reduction_20200831/Figures/cor_of_gpdResCorAndGEBV_F1_averages_withSD.pdf', plot = p3, width = 15, height = 15, unit = 'cm')
 
 
 # Correlation between gpd_ResCor and GEBVs, means with standard errors
@@ -589,10 +589,10 @@ p4=ggplot(Means_cor_gpdResCor_GEBV_SE, aes(x=Replicates, y=Means_cor_gpdResCor_G
   scale_x_reverse() +
   xlab("Replicates") +
   ylab("Correlation") +
-  theme_bw()
+  theme_classic()
 
 p4
-ggsave('/Volumes/NAT_MBG-PMg/Cathrine/Nchain/Genomic_prediction_yield_July2020/V2_LessHarsh_SaraQualityFilter/Replicate_Reduction_20200831/Figures/cor_of_gpdResCorAndGEBV_averagesF1_withSE.png', plot = p4, width = 15, height = 12, unit = 'cm')
+ggsave('/Volumes/NAT_MBG-PMg/Cathrine/Nchain/Genomic_prediction_yield_July2020/V2_LessHarsh_SaraQualityFilter/Replicate_Reduction_20200831/Figures/cor_of_gpdResCorAndGEBV_averagesF1_withSE.pdf', plot = p4, width = 15, height = 15, unit = 'cm')
 
 
 
@@ -631,4 +631,3 @@ FDRfunc(10,5)
 FDRfunc(10,4) 
 FDRfunc(10,3) 
 FDRfunc(10,2) 
-
