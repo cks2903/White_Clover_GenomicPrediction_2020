@@ -3,6 +3,7 @@
 {
   library(ggplot2)
   library(stringr)
+  library(wesanderson)
 }
 
 # set working directory
@@ -543,11 +544,11 @@ p1=ggplot(AllDataForplotting, aes(x=Replicates, y=cor_gpdResCor_GEBV)) +
   scale_x_reverse() +
   xlab("Replicates") +
   ylab("Correlation") +
-  theme_bw()
+  theme_classic()
 
 p1
 
-ggsave('/Volumes/NAT_MBG-PMg/Cathrine/Nchain/Genomic_prediction_yield_July2020/V2_LessHarsh_SaraQualityFilter/Replicate_Reduction_20200831/Figures/cor_of_gpdResCorAndGEBV.png', plot = p1, width = 15, height = 12, unit = 'cm')
+ggsave('/Volumes/NAT_MBG-PMg/Cathrine/Nchain/Genomic_prediction_yield_July2020/V2_LessHarsh_SaraQualityFilter/Replicate_Reduction_20200831/Figures/cor_of_gpdResCorAndGEBV.pdf', plot = p1, width = 15, height = 15, unit = 'cm')
 
 
 pd <- position_dodge(0.1) # move them .05 to the left and right
@@ -560,11 +561,11 @@ p2=ggplot(AllDataForplotting, aes(x=Replicates, y=cor_CorrectedPheno_GEBV)) +
   scale_x_reverse() +
   xlab("Replicates") +
   ylab("Correlation") +
-  theme_bw()
+  theme_classic()
 
 p2
 
-ggsave('/Volumes/NAT_MBG-PMg/Cathrine/Nchain/Genomic_prediction_yield_July2020/V2_LessHarsh_SaraQualityFilter/Replicate_Reduction_20200831/Figures/cor_of_CorrectedPheno(gpd_ResCor)AndGEBV.png', plot = p2, width = 15, height = 12, unit = 'cm')
+ggsave('/Volumes/NAT_MBG-PMg/Cathrine/Nchain/Genomic_prediction_yield_July2020/V2_LessHarsh_SaraQualityFilter/Replicate_Reduction_20200831/Figures/cor_of_CorrectedPheno(gpd_ResCor)AndGEBV.pdf', plot = p2, width = 15, height = 15, unit = 'cm')
 
 # Correlation between gpd_ResCor and GEBVs, means with standard deviations
 Means_cor_gpdResCor_GEBV=aggregate(AllDataForplotting$cor_gpdResCor_GEBV, list(AllDataForplotting$Replicates), mean)
@@ -583,11 +584,11 @@ p3=ggplot(Means_cor_gpdResCor_GEBV, aes(x=Replicates, y=Means_cor_gpdResCor_GEBV
   scale_x_reverse() +
   xlab("Replicates") +
   ylab("Correlation") +
-  theme_bw()
+  theme_classic()
 
 p3
 
-ggsave('/Volumes/NAT_MBG-PMg/Cathrine/Nchain/Genomic_prediction_yield_July2020/V2_LessHarsh_SaraQualityFilter/Replicate_Reduction_20200831/Figures/cor_of_gpdResCorAndGEBV_averages_withSD.png', plot = p3, width = 15, height = 12, unit = 'cm')
+ggsave('/Volumes/NAT_MBG-PMg/Cathrine/Nchain/Genomic_prediction_yield_July2020/V2_LessHarsh_SaraQualityFilter/Replicate_Reduction_20200831/Figures/cor_of_gpdResCorAndGEBV_averages_withSD.pdf', plot = p3, width = 15, height = 15, unit = 'cm')
 
 
 # Correlation between gpd_ResCor and GEBVs, means with standard errors
@@ -609,10 +610,10 @@ p4=ggplot(Means_cor_gpdResCor_GEBV_SE, aes(x=Replicates, y=Means_cor_gpdResCor_G
   scale_x_reverse() +
   xlab("Replicates") +
   ylab("Correlation") +
-  theme_bw()
+  theme_classic()
 
 p4
-ggsave('/Volumes/NAT_MBG-PMg/Cathrine/Nchain/Genomic_prediction_yield_July2020/V2_LessHarsh_SaraQualityFilter/Replicate_Reduction_20200831/Figures/cor_of_gpdResCorAndGEBV_averages_withSE.png', plot = p4, width = 15, height = 12, unit = 'cm')
+ggsave('/Volumes/NAT_MBG-PMg/Cathrine/Nchain/Genomic_prediction_yield_July2020/V2_LessHarsh_SaraQualityFilter/Replicate_Reduction_20200831/Figures/cor_of_gpdResCorAndGEBV_averages_withSE.pdf', plot = p4, width = 15, height = 15, unit = 'cm')
 
 
 # Correlation between Corrected Pheno and GEBVs, means with standard deviations
@@ -632,12 +633,24 @@ p5=ggplot(Means_cor_CorrectedPheno_GEBV, aes(x=Replicates, y=Means_cor_corrected
   scale_x_reverse() +
   xlab("Replicates") +
   ylab("Correlation") +
-  theme_bw()
+  theme_classic()
 
 p5
 
-ggsave('/Volumes/NAT_MBG-PMg/Cathrine/Nchain/Genomic_prediction_yield_July2020/V2_LessHarsh_SaraQualityFilter/Replicate_Reduction_20200831/Figures/cor_of_CorrectedPheno(gpd_ResCor)AndGEBV_averages_withSD.png', plot = p5, width = 15, height = 12, unit = 'cm')
+ggsave('/Volumes/NAT_MBG-PMg/Cathrine/Nchain/Genomic_prediction_yield_July2020/V2_LessHarsh_SaraQualityFilter/Replicate_Reduction_20200831/Figures/cor_of_CorrectedPheno(gpd_ResCor)AndGEBV_averages_withSD.pdf', plot = p5, width = 15, height = 15, unit = 'cm')
 
+p55=ggplot(Means_cor_CorrectedPheno_GEBV, aes(x=Replicates, y=Means_cor_correctedpheno_GEBV)) + 
+  geom_line(position=pd,color=wes_palette("Rushmore1")[3]) +
+  geom_point(color=wes_palette("Rushmore1")[3]) +
+  geom_errorbar(aes(ymin=lower, ymax=upper), width=.05, position=pd,color=wes_palette("Rushmore1")[3]) +
+  #ylim(0,0.4) +
+  scale_x_reverse() +
+  xlab("Replicates") +
+  ylab("Correlation") +
+  theme_classic()
+
+p55
+ggsave('/Volumes/NAT_MBG-PMg/Cathrine/Nchain/Genomic_prediction_yield_July2020/V2_LessHarsh_SaraQualityFilter/Replicate_Reduction_20200831/Figures/cor_of_CorrectedPheno(gpd_ResCor)AndGEBV_averages_withSD_coloured.pdf', plot = p5, width = 15, height = 15, unit = 'cm')
 
 # Correlation between gpd_ResCor and GEBVs, means with standard errors
 Means_cor_CorrectedPheno_GEBV_SE=aggregate(AllDataForplotting$cor_CorrectedPheno_GEBV, list(AllDataForplotting$Replicates), mean)
@@ -658,11 +671,11 @@ p6=ggplot(Means_cor_CorrectedPheno_GEBV_SE, aes(x=Replicates, y=Means_cor_correc
   scale_x_reverse() +
   xlab("Replicates") +
   ylab("Correlation") +
-  theme_bw()
+  theme_classic()
 
 p6
 
-ggsave('/Volumes/NAT_MBG-PMg/Cathrine/Nchain/Genomic_prediction_yield_July2020/V2_LessHarsh_SaraQualityFilter/Replicate_Reduction_20200831/Figures/cor_of_CorrectedPheno(gpd_ResCor)AndGEBV_averages_withSE.png', plot = p6, width = 15, height = 12, unit = 'cm')
+ggsave('/Volumes/NAT_MBG-PMg/Cathrine/Nchain/Genomic_prediction_yield_July2020/V2_LessHarsh_SaraQualityFilter/Replicate_Reduction_20200831/Figures/cor_of_CorrectedPheno(gpd_ResCor)AndGEBV_averages_withSE.pdf', plot = p6, width = 15, height = 15, unit = 'cm')
 
 
 
@@ -681,11 +694,11 @@ p7=ggplot(Mean_avg_SD_gpdResCor, aes(x=Replicates, y=Mean_avg_SD_gpdResCor)) +
   scale_x_reverse() +
   xlab("Replicates") +
   ylab("Avg. Standard deviation of gpd_ResCor estimates") +
-  theme_bw()
+  theme_classic()
 
 p7
 
-ggsave('/Volumes/NAT_MBG-PMg/Cathrine/Nchain/Genomic_prediction_yield_July2020/V2_LessHarsh_SaraQualityFilter/Replicate_Reduction_20200831/Figures/Mean_avg_SD_gpdResCor.png', plot = p7, width = 15, height = 12, unit = 'cm')
+ggsave('/Volumes/NAT_MBG-PMg/Cathrine/Nchain/Genomic_prediction_yield_July2020/V2_LessHarsh_SaraQualityFilter/Replicate_Reduction_20200831/Figures/Mean_avg_SD_gpdResCor.pdf', plot = p7, width = 15, height = 15, unit = 'cm')
 
 
 # plot SD of average corrected phenotypes
@@ -702,11 +715,11 @@ p8=ggplot(Mean_avg_SD_CorrectedPheno, aes(x=Replicates, y=Mean_avg_SD_CorrectedP
   scale_x_reverse() +
   xlab("Replicates") +
   ylab("Avg. Standard deviation of Corrected Phenotypes estimates") +
-  theme_bw()
+  theme_classic()
 
 p8
 
-ggsave('/Volumes/NAT_MBG-PMg/Cathrine/Nchain/Genomic_prediction_yield_July2020/V2_LessHarsh_SaraQualityFilter/Replicate_Reduction_20200831/Figures/Mean_avg_SD_CorrectedPheno(gpd_ResCor).png', plot = p8, width = 15, height = 12, unit = 'cm')
+ggsave('/Volumes/NAT_MBG-PMg/Cathrine/Nchain/Genomic_prediction_yield_July2020/V2_LessHarsh_SaraQualityFilter/Replicate_Reduction_20200831/Figures/Mean_avg_SD_CorrectedPheno(gpd_ResCor).pdf', plot = p8, width = 15, height = 15, unit = 'cm')
 
 
 # plot SE of average corrected phenotypes
@@ -722,11 +735,11 @@ p9=ggplot(Mean_avg_SE_CorrectedPheno, aes(x=Replicates, y=Mean_avg_SE_CorrectedP
   scale_x_reverse() +
   xlab("Replicates") +
   ylab("Avg. Standard error of Corrected Phenotypes estimates") +
-  theme_bw()
+  theme_classic()
 
 p9
 
-ggsave('/Volumes/NAT_MBG-PMg/Cathrine/Nchain/Genomic_prediction_yield_July2020/V2_LessHarsh_SaraQualityFilter/Replicate_Reduction_20200831/Figures/Mean_avg_SE_CorrectedPheno(gpd_ResCor).png', plot = p9, width = 15, height = 12, unit = 'cm')
+ggsave('/Volumes/NAT_MBG-PMg/Cathrine/Nchain/Genomic_prediction_yield_July2020/V2_LessHarsh_SaraQualityFilter/Replicate_Reduction_20200831/Figures/Mean_avg_SE_CorrectedPheno(gpd_ResCor).pdf', plot = p9, width = 15, height = 15, unit = 'cm')
 
 
 # plot SE of average gpd_resCor 
@@ -741,11 +754,11 @@ p10=ggplot(Mean_avg_SE_gpdResCor, aes(x=Replicates, y=Mean_avg_SE_gpdRescor)) +
   scale_x_reverse() +
   xlab("Replicates") +
   ylab("Avg. Standard error of gpd_ResCor estimates") +
-  theme_bw()
+  theme_classic()
 
 p10
 
-ggsave('/Volumes/NAT_MBG-PMg/Cathrine/Nchain/Genomic_prediction_yield_July2020/V2_LessHarsh_SaraQualityFilter/Replicate_Reduction_20200831/Figures/Mean_avg_SE_gpdResCor.png', plot = p10, width = 15, height = 12, unit = 'cm')
+ggsave('/Volumes/NAT_MBG-PMg/Cathrine/Nchain/Genomic_prediction_yield_July2020/V2_LessHarsh_SaraQualityFilter/Replicate_Reduction_20200831/Figures/Mean_avg_SE_gpdResCor.pdf', plot = p10, width = 15, height = 15, unit = 'cm')
 
 
 
@@ -784,9 +797,6 @@ FDRfunc(10,5) #0.20
 FDRfunc(10,4) #0.18
 FDRfunc(10,3) #0.10
 FDRfunc(10,2) #0.01
-
-
-
 
 
 
@@ -838,12 +848,13 @@ t.test(AllDataForplotting[which(AllDataForplotting$Replicates==10),4], AllDataFo
 
 
 # for SD of Correctedpheno 
-t.test(AllDataForplotting[which(AllDataForplotting$Replicates==10),3], AllDataForplotting[which(AllDataForplotting$Replicates==9),3], paired = FALSE, alternative = "greater") # ***
-t.test(AllDataForplotting[which(AllDataForplotting$Replicates==10),3], AllDataForplotting[which(AllDataForplotting$Replicates==8),3], paired = FALSE, alternative = "greater") # ***
-t.test(AllDataForplotting[which(AllDataForplotting$Replicates==10),3], AllDataForplotting[which(AllDataForplotting$Replicates==7),3], paired = FALSE, alternative = "greater") # ***
-t.test(AllDataForplotting[which(AllDataForplotting$Replicates==10),3], AllDataForplotting[which(AllDataForplotting$Replicates==6),3], paired = FALSE, alternative = "greater") # ***
-t.test(AllDataForplotting[which(AllDataForplotting$Replicates==10),3], AllDataForplotting[which(AllDataForplotting$Replicates==5),3], paired = FALSE, alternative = "greater") # ***
-t.test(AllDataForplotting[which(AllDataForplotting$Replicates==10),3], AllDataForplotting[which(AllDataForplotting$Replicates==4),3], paired = FALSE, alternative = "greater") # ***
-t.test(AllDataForplotting[which(AllDataForplotting$Replicates==10),3], AllDataForplotting[which(AllDataForplotting$Replicates==3),3], paired = FALSE, alternative = "greater") # ***
-t.test(AllDataForplotting[which(AllDataForplotting$Replicates==10),3], AllDataForplotting[which(AllDataForplotting$Replicates==2),3], paired = FALSE, alternative = "greater") # ***
+t.test(AllDataForplotting[which(AllDataForplotting$Replicates==10),2], AllDataForplotting[which(AllDataForplotting$Replicates==9),2], paired = FALSE, alternative = "greater") # N.S
+t.test(AllDataForplotting[which(AllDataForplotting$Replicates==10),2], AllDataForplotting[which(AllDataForplotting$Replicates==8),2], paired = FALSE, alternative = "greater") # *
+t.test(AllDataForplotting[which(AllDataForplotting$Replicates==10),2], AllDataForplotting[which(AllDataForplotting$Replicates==7),2], paired = FALSE, alternative = "greater") # ***
+t.test(AllDataForplotting[which(AllDataForplotting$Replicates==10),2], AllDataForplotting[which(AllDataForplotting$Replicates==6),2], paired = FALSE, alternative = "greater") # ***
+t.test(AllDataForplotting[which(AllDataForplotting$Replicates==10),2], AllDataForplotting[which(AllDataForplotting$Replicates==5),2], paired = FALSE, alternative = "greater") # ***
+t.test(AllDataForplotting[which(AllDataForplotting$Replicates==10),2], AllDataForplotting[which(AllDataForplotting$Replicates==4),2], paired = FALSE, alternative = "greater") # ***
+t.test(AllDataForplotting[which(AllDataForplotting$Replicates==10),2], AllDataForplotting[which(AllDataForplotting$Replicates==3),2], paired = FALSE, alternative = "greater") # ***
+t.test(AllDataForplotting[which(AllDataForplotting$Replicates==10),2], AllDataForplotting[which(AllDataForplotting$Replicates==2),2], paired = FALSE, alternative = "greater") # ***
+
 
