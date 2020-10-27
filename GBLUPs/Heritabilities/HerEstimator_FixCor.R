@@ -181,26 +181,6 @@ d005 = d05[-WeirdMeasurementBarcodesBarcodesidx,]
   write.table(m,paste("Clover_heritabilities_fulldata",".txt",sep=""),sep="\t")
 }  
 
-{
-  print("Calculating clover heritability by using mean of lines")
-  ypre=d6$CorrectedPheno #already corrected for all fixed effects
-  LineMeans=aggregate(d6$CorrectedPheno, list(d6$Clovershort), mean)
-  y=LineMeans[,2]
-  ETA=list(list(K=GRM1,model="RKHS")) 
-  m2 <- matrix(0, ncol = 4, nrow = 100)
-  m2 =as.data.frame(m2)
-  colnames(m2)=c("Round","additiveGRMvar","ResVar","h2_linemean")
-  
-  for (i in seq(1:100)){
-    GBLUP=BGLR(y=y,response_type = "gaussian",ETA=ETA,nIter=20000,burnIn = 5000,verbose=F,saveAt=paste("heritabilityestimation"))
-    h2_linemean=(GBLUP$ETA[[1]]$varU)/(GBLUP$varE+GBLUP$ETA[[1]]$varU)
-    m2$h2_linemean[i]=h2_linemean
-    m2$Round[i]=i
-    m2$additiveGRMvar[i]=GBLUP$ETA[[1]]$varU
-    m2$ResVar[i]=GBLUP$varE
-  }
-  write.table(m2,paste("Clover_h2_linemean_estimatingOnAverages",".txt",sep=""),sep="\t")
-}  
 
 
 # Upload rhiz. matrix
@@ -261,37 +241,3 @@ all(dim(GRM_rhi_filt)==length(unique(d6_new$rhizobium))) # Check
   write.table(m,paste("Rhiz_heritabilities_fulldata",".txt",sep=""),sep="\t")
 }  
 
-
-# Calculate a phenotype corrected for all fixed effects
-{
-  Correctedforallfixed_rhiz <- lmer(gpd_dryweight_cor ~ factor(Round) + factor(NS) + factor(EW) + (1|Rhizobium) + inoculation_date + factor(Clover), data=d6_new) 
-  summary(Correctedforallfixed_rhiz)
-  matrixOfeffects=model.matrix( ~ factor(Round) + factor(NS) + factor(EW)  + factor(Clover) + inoculation_date, data=d6_new)
-  column_to_remove=which(colnames(matrixOfeffects) %in% names(fixef(Correctedforallfixed_rhiz))==F)
-  matrixOfeffects_new=matrixOfeffects[,-column_to_remove]
-  
-  ycorr <- d6_new$gpd_dryweight_cor - matrixOfeffects_new %*% fixef(Correctedforallfixed_rhiz)
-  d6_new$CorrectedPhenoRhiz <- ycorr 
-}  
-
-
-{
-  print("Calculating rhizobium heritability by using mean of lines")
-  ypre=d6_new$CorrectedPhenoRhiz #already corrected for all fixed effects
-  LineMeans=aggregate(d6_new$CorrectedPhenoRhiz, list(d6_new$rhizobium), mean)
-  y=LineMeans[,2]
-  ETA=list(list(K=GRM_rhi_filt,model="RKHS")) 
-  m2 <- matrix(0, ncol = 4, nrow = 100)
-  m2 =as.data.frame(m2)
-  colnames(m2)=c("Round","additiveGRMvar","ResVar","h2_linemean")
-  
-  for (i in seq(1:100)){
-    GBLUP=BGLR(y=y,response_type = "gaussian",ETA=ETA,nIter=20000,burnIn = 5000,verbose=F,saveAt=paste("heritabilityestimation"))
-    h2_linemean=(GBLUP$ETA[[1]]$varU)/(GBLUP$varE+GBLUP$ETA[[1]]$varU)
-    m2$h2_linemean[i]=h2_linemean
-    m2$Round[i]=i
-    m2$additiveGRMvar[i]=GBLUP$ETA[[1]]$varU
-    m2$ResVar[i]=GBLUP$varE
-  }
-  write.table(m2,paste("Rhiz_h2_linemean_estimatingOnAverages",".txt",sep=""),sep="\t")
-}  
