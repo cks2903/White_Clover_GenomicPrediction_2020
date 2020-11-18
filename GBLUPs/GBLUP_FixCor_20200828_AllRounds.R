@@ -159,10 +159,8 @@ d005 = d05[-WeirdMeasurementBarcodesBarcodesidx,]
   nrow(d4)
 }
 
-# Remove round 1 replicate 2
 {
   d4$roundRep <- paste(d4$Round, d4$Replicate, sep='_')
-  #d6=d4[-which(d4$roundRep=="1_2"),]
   d6=d4
   nrow(d6)
   length(which(d6$Clovershort=="Aearl_07"))
@@ -175,16 +173,12 @@ d005 = d05[-WeirdMeasurementBarcodesBarcodesidx,]
   d6=d6[order(d6$Clovershort),] # make sure it is in alphabetic order like the GRM
 }
 
-# Correct GPD for the full effect of initial size
+  # Correct GPD for the full effect of initial size
 {
- 
-  fit <- lmer(growth_per_day ~ InitialSize + (1|Clover), data=d6) 
-  ycorr <- d6$growth_per_day - model.matrix( ~ InitialSize, data=d6) %*% fixef(fit)
+  fit <- lm(growth_per_day ~ InitialSize, data=d6) 
+  ycorr <- d6$growth_per_day - model.matrix( ~ InitialSize, data=d6) %*% fit$coefficients
   d6$gpd_dryweight_cor <- ycorr #this is the new corrected dry weight
 }
-
-
-
 
 # Calculate a phenotype corrected for all fixed effects
 {
