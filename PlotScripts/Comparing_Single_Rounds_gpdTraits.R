@@ -88,7 +88,7 @@ rm(list = ls())
   
   # try adding gpd_fixcor
   
-  setwd("/Volumes/NAT_MBG-PMg/Cathrine/Nchain/Genomic_prediction_yield_July2020/V2_LessHarsh_SaraQualityFilter/GBLUP_gpd_Fixcor_6foldCV_20200828")
+  setwd("/Volumes/NAT_MBG-PMg/Cathrine/Nchain/Genomic_prediction_yield_July2020/V2_LessHarsh_SaraQualityFilter/GBLUP_gpd_Fixcor_6foldCV_20201113")
   dataframeWithResults3=rep(0,2)
   dataframeWithResults3=as.data.frame(dataframeWithResults3)
   dataframeWithResults3=t(dataframeWithResults3)
@@ -125,6 +125,5 @@ rm(list = ls())
     theme_classic()
   
   p3
-  ggsave('/Volumes/NAT_MBG-PMg/Cathrine/Nchain/Genomic_prediction_yield_July2020/V2_LessHarsh_SaraQualityFilter/Article_GP_gpd/CorrelationGBLUP_gpdResCor_vs._gpdNoCor_vs.gpdFixCor.pdf', plot = p3, width = 30, height = 20, unit = 'cm')
+  ggsave('/Volumes/NAT_MBG-PMg/Cathrine/Nchain/Genomic_prediction_yield_July2020/V2_LessHarsh_SaraQualityFilter/Article_GP_gpd/CorrelationGBLUP_gpdResCor_vs._gpdNoCor_vs.gpdFixCor_20201118.pdf', plot = p3, width = 30, height = 20, unit = 'cm')
 }
-
