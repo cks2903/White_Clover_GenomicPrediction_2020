@@ -122,8 +122,8 @@ d005 = d05[-WeirdMeasurementBarcodesBarcodesidx,]
 # Correct GPD for the full effect of initial size
 {
  
-  fit <- lmer(growth_per_day ~ InitialSize + (1|Clover), data=d6) 
-  ycorr <- d6$growth_per_day - model.matrix( ~ InitialSize, data=d6) %*% fixef(fit)
+  fit <- lm(growth_per_day ~ InitialSize, data=d6)   
+  ycorr <- d6$growth_per_day - model.matrix( ~ InitialSize, data=d6) %*% fit$coefficients
   d6$gpd_dryweight_cor <- ycorr #this is the new corrected dry weight
 }
 
