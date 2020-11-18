@@ -11,7 +11,7 @@ setwd("/Volumes/NAT_MBG-PMg/Cathrine/Nchain/Genomic_prediction_yield_July2020/V2
 
 # Load data
 {
-  data=read.table("gpdtraits_fulld6.txt",sep="\t",header=T)
+  data=read.table("gpdtraits_fulld6_20201118.txt",sep="\t",header=T)
   head(data)
   
 }
@@ -57,7 +57,7 @@ ggsave("growthperday_clover.pdf", width =60, height = 30, units = "cm",useDingba
 
 
 # plots BLUPs instead
-Model1 = lmer(growth_per_day ~ factor(Round) + factor(NS) + factor(EW) + factor(Rhizobium) + inoculation_date + (1|Clovershort), data=data_ordered) 
+Model1 = lmer(growth_per_day ~ factor(NS) + factor(EW) + factor(Rhizobium) + inoculation_date + (1|Clovershort), data=data_ordered) 
 CloverBLUPs=ranef(Model1)$Clover
 CloverBLUPs=as.data.frame(CloverBLUPs)
 CloverBLUPs$Clovershort=rownames(CloverBLUPs)
@@ -86,7 +86,7 @@ sp2
 ggsave("growthperday_rhiz.pdf", width =60, height = 30, units = "cm",useDingbats=FALSE)
 
 # plots BLUPs instead
-Model2 = lmer(growth_per_day ~ factor(Round) + factor(NS) + factor(EW) + factor(Clovershort) + inoculation_date + (1|Rhizobium), data=data_ordered) 
+Model2 = lmer(growth_per_day ~ factor(NS) + factor(EW) + factor(Clovershort) + inoculation_date + (1|Rhizobium), data=data_ordered) 
 RhizobiumBLUPs=ranef(Model2)$Rhizobium
 RhizobiumBLUPs=as.data.frame(RhizobiumBLUPs)
 RhizobiumBLUPs$Rhizobium=rownames(RhizobiumBLUPs)
@@ -107,7 +107,7 @@ ggsave("growthperdayBLUPs_rhiz.pdf", width =60, height = 30, units = "cm",useDin
 #### for rescor
 
 # Calculate means and order according to means
-resCor_means=aggregate(as.numeric(data$gpd_dryweight_cor), list(data$Clovershort), mean)
+resCor_means=aggregate(as.numeric(data$gpdResCor), list(data$Clovershort), mean)
 colnames(resCor_means)=c("Clover","gpd_rescor")
 
 resCor_means_ordered <- resCor_means[order(resCor_means$gpd_rescor),]
@@ -128,7 +128,7 @@ data_ordered1$Clovershort <- factor(data_ordered1$Clovershort,levels = individua
 
 
 # Make boxplot plot, gpdRescor, clover x-axis
-sp3<-ggplot(data_ordered1, aes(x= reorder(Clovershort, gpd_dryweight_cor, FUN =median), y=gpd_dryweight_cor)) +
+sp3<-ggplot(data_ordered1, aes(x= reorder(Clovershort, gpdResCor, FUN =median), y=gpdResCor)) +
   geom_boxplot(fill=wes_palette("Rushmore1")[3],alpha=0.7) +
   ylim(-1.1,1.6) +
   xlab("Clover genotype") +
@@ -139,7 +139,7 @@ ggsave("growthperdayBLUPs_clover.pdf", width =60, height = 30, units = "cm",useD
 
 
 # plots BLUPs instead
-Model3 = lmer(gpd_dryweight_cor ~ factor(Round) + factor(NS) + factor(EW) + factor(Rhizobium) + inoculation_date + (1|Clovershort), data=data_ordered1) 
+Model3 = lmer(gpdResCor ~ factor(NS) + factor(EW) + factor(Rhizobium) + inoculation_date + (1|Clovershort), data=data_ordered1) 
 CloverBLUPs=ranef(Model3)$Clover
 CloverBLUPs=as.data.frame(CloverBLUPs)
 CloverBLUPs$Clovershort=rownames(CloverBLUPs)
@@ -158,7 +158,7 @@ ggsave("growthperdayBLUPs_clover(gpdres).pdf", width =60, height = 30, units = "
 
 
 # Make boxplot plot, gpdRescor, rhiz x-axis
-sp4<-ggplot(data_ordered1, aes(x= reorder(Rhizobium, gpd_dryweight_cor, FUN =median), y=gpd_dryweight_cor)) +
+sp4<-ggplot(data_ordered1, aes(x= reorder(Rhizobium, gpdResCor, FUN =median), y=gpdResCor)) +
   geom_boxplot(fill=wes_palette("Rushmore1")[3],alpha=0.7) +
   ylim(-1.1,1.6) +
   xlab("Rhizobium genotype") +
@@ -169,7 +169,7 @@ ggsave("gpd_rescor_rhiz.pdf", width =60, height = 30, units = "cm",useDingbats=F
 
 
 # plots BLUPs instead
-Model4 = lmer(gpd_dryweight_cor ~ factor(Round) + factor(NS) + factor(EW) + factor(Clovershort) + inoculation_date + (1|Rhizobium), data=data_ordered1) 
+Model4 = lmer(gpdResCor ~ factor(NS) + factor(EW) + factor(Clovershort) + inoculation_date + (1|Rhizobium), data=data_ordered1) 
 RhizobiumBLUPs=ranef(Model4)$Rhizobium
 RhizobiumBLUPs=as.data.frame(RhizobiumBLUPs)
 RhizobiumBLUPs$Rhizobium=rownames(RhizobiumBLUPs)
@@ -191,7 +191,7 @@ ggsave("growthperdayBLUPs_rhiz(gpdres).pdf", width =60, height = 30, units = "cm
 #### for fixcor
 
 # Calculate means and order according to means
-FixCor_means=aggregate(as.numeric(data$gpd_dryweight_Fixcor), list(data$Clovershort), mean)
+FixCor_means=aggregate(as.numeric(data$gpdFixCor), list(data$Clovershort), mean)
 colnames(FixCor_means)=c("Clover","gpd_fixcor")
 
 FixCor_means_ordered <- FixCor_means[order(FixCor_means$gpd_fixcor),]
@@ -210,7 +210,7 @@ data_ordered10$Clovershort <- factor(data_ordered10$Clovershort,levels = individ
 
 
 # Make boxplot plot, gpdRescor, clover x-axis
-sp11<-ggplot(data_ordered10, aes(x= reorder(Clovershort, gpd_dryweight_Fixcor, FUN =median), y=gpd_dryweight_Fixcor)) +
+sp11<-ggplot(data_ordered10, aes(x= reorder(Clovershort, gpdFixCor, FUN =median), y=gpdFixCor)) +
   geom_boxplot(fill=wes_palette("Rushmore1")[2],alpha=0.7) +
   ylim(-1.2,1.6) +
   xlab("Clover genotype") +
@@ -221,7 +221,7 @@ ggsave("gpd_fixcor_clover.pdf", width =60, height = 30, units = "cm",useDingbats
 
 
 # plots BLUPs instead
-Model10 = lmer(gpd_dryweight_Fixcor ~ factor(Round) + factor(NS) + factor(EW) + factor(Rhizobium) + inoculation_date + (1|Clovershort), data=data_ordered10) 
+Model10 = lmer(gpdFixCor ~ factor(NS) + factor(EW) + factor(Rhizobium) + inoculation_date + (1|Clovershort), data=data_ordered10) 
 CloverBLUPs=ranef(Model10)$Clover
 CloverBLUPs=as.data.frame(CloverBLUPs)
 CloverBLUPs$Clovershort=rownames(CloverBLUPs)
@@ -240,7 +240,7 @@ ggsave("growthperdayBLUPs_clover(gpdfixcor).pdf", width =60, height = 30, units 
 
 
 # Make boxplot plot, gpdRescor, rhiz x-axis
-sp13<-ggplot(data_ordered_with_BLUPS10, aes(x= reorder(Rhizobium, gpd_dryweight_Fixcor, FUN =median), y=gpd_dryweight_Fixcor)) +
+sp13<-ggplot(data_ordered_with_BLUPS10, aes(x= reorder(Rhizobium, gpdFixCor, FUN =median), y=gpdFixCor)) +
   geom_boxplot(fill=wes_palette("Rushmore1")[2],alpha=0.7) +
   ylim(-1.2,1.6) +
   xlab("Rhizobium genotype") +
@@ -251,7 +251,7 @@ ggsave("gpd_fixcor_rhiz.pdf", width =60, height = 30, units = "cm",useDingbats=F
 
 
 # plots BLUPs instead
-Model14 = lmer(gpd_dryweight_Fixcor ~ factor(Round) + factor(NS) + factor(EW) + factor(Clovershort) + inoculation_date + (1|Rhizobium), data=data_ordered10) 
+Model14 = lmer(gpdFixCor ~ factor(NS) + factor(EW) + factor(Clovershort) + inoculation_date + (1|Rhizobium), data=data_ordered10) 
 RhizobiumBLUPs_fixed=ranef(Model14)$Rhizobium
 RhizobiumBLUPs_fixed=as.data.frame(RhizobiumBLUPs_fixed)
 RhizobiumBLUPs_fixed$Rhizobium=rownames(RhizobiumBLUPs_fixed)
@@ -272,52 +272,52 @@ ggsave("growthperdayBLUPs_rhiz(gpdfix).pdf", width =60, height = 30, units = "cm
 
 
 # plot together for comparison, gpd values, clover
-x1 = mean(data_ordered$growth_per_day)
-x2 = mean(data_ordered1$gpd_dryweight_cor)
+#x1 = mean(data_ordered$growth_per_day)
+#x2 = mean(data_ordered1$gpd_dryweight_cor)
 
-sp5<-ggplot(data_ordered, aes(x= reorder(Clovershort, growth_per_day, FUN =median), y=growth_per_day)) +
-  geom_boxplot(fill=wes_palette("Rushmore1")[4],alpha=0.7) +
-  ylim(c(-0.7,1.7)) +
-  xlab("Clover genotype") +
-  ylab("growth per day") +
-  theme_classic() +theme(axis.text.x = element_text(angle = 90)) +theme(axis.title=element_text(size=20))
-sp5
+#sp5<-ggplot(data_ordered, aes(x= reorder(Clovershort, growth_per_day, FUN =median), y=growth_per_day)) +
+  #geom_boxplot(fill=wes_palette("Rushmore1")[4],alpha=0.7) +
+  #ylim(c(-0.7,1.7)) +
+  #xlab("Clover genotype") +
+  #ylab("growth per day") +
+  #theme_classic() +theme(axis.text.x = element_text(angle = 90)) +theme(axis.title=element_text(size=20))
+#sp5
 
 
-sp6<-ggplot(data_ordered1, aes(x= reorder(Clovershort, gpd_dryweight_cor, FUN =median), y=gpd_dryweight_cor+(x1+(-x2))))  +
-  geom_boxplot(fill=wes_palette("Rushmore1")[3],alpha=0.7) +
-  ylim(c(-0.7,1.7)) +
-  xlab("Clover genotype") +
-  ylab("gpd_ResCor") +
-  theme_classic() +theme(axis.text.x = element_text(angle = 90)) +theme(axis.title=element_text(size=20))
-sp6
+#sp6<-ggplot(data_ordered1, aes(x= reorder(Clovershort, gpd_dryweight_cor, FUN =median), y=gpd_dryweight_cor+(x1+(-x2))))  +
+  #geom_boxplot(fill=wes_palette("Rushmore1")[3],alpha=0.7) +
+  #ylim(c(-0.7,1.7)) +
+  #xlab("Clover genotype") +
+  #ylab("gpd_ResCor") +
+  #theme_classic() +theme(axis.text.x = element_text(angle = 90)) +theme(axis.title=element_text(size=20))
+#sp6
 
 require(gridExtra)
-plot=grid.arrange(sp5, sp6, ncol=2)
-ggsave("CloverPhenoComparison.pdf",plot, width =60, height = 20, units = "cm",useDingbats=FALSE)
+#plot=grid.arrange(sp5, sp6, ncol=2)
+#ggsave("CloverPhenoComparison.pdf",plot, width =60, height = 20, units = "cm",useDingbats=FALSE)
 
 
 # plot together for comparison, BLUPS clover
-sp5<-ggplot(data_ordered_with_BLUPS1, aes(x= reorder(Clovershort, BLUPsClover, FUN =median), y=BLUPsClover)) +
-  geom_point(color=wes_palette("Rushmore1")[4],alpha=0.7) +
-  ylim(c(-0.3,0.3)) +
-  xlab("Clover genotype") +
-  ylab("BLUPs Clover") +
-  theme_classic() +theme(axis.text.x = element_text(angle = 90)) +theme(axis.title=element_text(size=20))
-sp5
+#sp5<-ggplot(data_ordered_with_BLUPS1, aes(x= reorder(Clovershort, BLUPsClover, FUN =median), y=BLUPsClover)) +
+  #geom_point(color=wes_palette("Rushmore1")[4],alpha=0.7) +
+  #ylim(c(-0.3,0.3)) +
+  #xlab("Clover genotype") +
+  #ylab("BLUPs Clover") +
+  #theme_classic() +theme(axis.text.x = element_text(angle = 90)) +theme(axis.title=element_text(size=20))
+#sp5
 
 
-sp6<-ggplot(data_ordered_with_BLUPS3, aes(x= reorder(Clovershort, BLUPsClover, FUN =median), y=BLUPsClover))  +
-  geom_point(color=wes_palette("Rushmore1")[3],alpha=0.7) +
-  ylim(c(-0.3,0.3)) +
-  xlab("Clover genotype") +
-  ylab("BLUPs Clover (gpdResCor)") +
-  theme_classic() +theme(axis.text.x = element_text(angle = 90)) +theme(axis.title=element_text(size=20))
-sp6
+#sp6<-ggplot(data_ordered_with_BLUPS3, aes(x= reorder(Clovershort, BLUPsClover, FUN =median), y=BLUPsClover))  +
+  #geom_point(color=wes_palette("Rushmore1")[3],alpha=0.7) +
+  #ylim(c(-0.3,0.3)) +
+  #xlab("Clover genotype") +
+  #ylab("BLUPs Clover (gpdResCor)") +
+  #theme_classic() +theme(axis.text.x = element_text(angle = 90)) +theme(axis.title=element_text(size=20))
+#sp6
 
-require(gridExtra)
-plot=grid.arrange(sp5, sp6, ncol=2)
-ggsave("CloverBLUPComparison.pdf",plot, width =60, height = 20, units = "cm",useDingbats=FALSE)
+#require(gridExtra)
+#plot=grid.arrange(sp5, sp6, ncol=2)
+#ggsave("CloverBLUPComparison.pdf",plot, width =60, height = 20, units = "cm",useDingbats=FALSE)
 
 ######## clover in same plot
 
@@ -338,49 +338,49 @@ ggsave("CloverBLUPComparison_v2.pdf",sp6.5, width =30, height = 20, units = "cm"
 
 
 # plot together for comparison
-sp7<-ggplot(data_ordered, aes(x= reorder(Rhizobium, growth_per_day, FUN =median), y=growth_per_day)) +
-  geom_boxplot(fill=wes_palette("Rushmore1")[4],alpha=0.7) +
-  ylim(c(-0.7,1.7)) +
-  xlab("Rhizobium genotype") +
-  ylab("growth per day") +
-  theme_classic() +theme(axis.text.x = element_text(angle = 90)) +theme(axis.title=element_text(size=20))
-sp7
+#sp7<-ggplot(data_ordered, aes(x= reorder(Rhizobium, growth_per_day, FUN =median), y=growth_per_day)) +
+  #geom_boxplot(fill=wes_palette("Rushmore1")[4],alpha=0.7) +
+  #ylim(c(-0.7,1.7)) +
+  #xlab("Rhizobium genotype") +
+  #ylab("growth per day") +
+  #theme_classic() +theme(axis.text.x = element_text(angle = 90)) +theme(axis.title=element_text(size=20))
+#sp7
 
 
-sp8<-ggplot(data_ordered1, aes(x= reorder(Rhizobium, gpd_dryweight_cor, FUN =median), y=gpd_dryweight_cor+(x1+(-x2))))  +
-  geom_boxplot(fill=wes_palette("Rushmore1")[3],alpha=0.7) +
-  ylim(c(-0.7,1.7)) +
-  xlab("Rhizobium genotype") +
-  ylab("gpd_ResCor") +
-  theme_classic() +theme(axis.text.x = element_text(angle = 90)) +theme(axis.title=element_text(size=20))
-sp8
+#sp8<-ggplot(data_ordered1, aes(x= reorder(Rhizobium, gpd_dryweight_cor, FUN =median), y=gpd_dryweight_cor+(x1+(-x2))))  +
+  #geom_boxplot(fill=wes_palette("Rushmore1")[3],alpha=0.7) +
+  #ylim(c(-0.7,1.7)) +
+  #xlab("Rhizobium genotype") +
+  #ylab("gpd_ResCor") +
+  #theme_classic() +theme(axis.text.x = element_text(angle = 90)) +theme(axis.title=element_text(size=20))
+#sp8
 
-require(gridExtra)
-plot=grid.arrange(sp7, sp8, ncol=2)
-ggsave("RhizobiumPhenoComparison.pdf",plot, width =60, height = 20, units = "cm",useDingbats=FALSE)
-
-
-sp5<-ggplot(data_ordered_with_BLUPS2, aes(x= reorder(Rhizobium, BLUPsRhiz, FUN =median), y=BLUPsRhiz)) +
-  geom_point(color=wes_palette("Rushmore1")[4],alpha=0.7) +
-  ylim(c(-0.3,0.3)) +
-  xlab("Rhizobium genotype") +
-  ylab("BLUPs Rhizobium") +
-  theme_classic() +theme(axis.text.x = element_text(angle = 90)) +theme(axis.title=element_text(size=20))
-sp5
+#require(gridExtra)
+#plot=grid.arrange(sp7, sp8, ncol=2)
+#ggsave("RhizobiumPhenoComparison.pdf",plot, width =60, height = 20, units = "cm",useDingbats=FALSE)
 
 
-sp6<-ggplot(data_ordered_with_BLUPS4, aes(x= reorder(Rhizobium, BLUPsRhiz, FUN =median), y=BLUPsRhiz))  +
-  geom_point(color=wes_palette("Rushmore1")[3],alpha=0.7) +
-  ylim(c(-0.3,0.3)) +
-  xlab("Rhizobium genotype") +
-  ylab("BLUPs Rhizobium (gpdResCor)") +
-  theme_classic() +theme(axis.text.x = element_text(angle = 90)) +theme(axis.title=element_text(size=20))
-sp6
+#sp5<-ggplot(data_ordered_with_BLUPS2, aes(x= reorder(Rhizobium, BLUPsRhiz, FUN =median), y=BLUPsRhiz)) +
+  #geom_point(color=wes_palette("Rushmore1")[4],alpha=0.7) +
+  #ylim(c(-0.3,0.3)) +
+  #xlab("Rhizobium genotype") +
+  #ylab("BLUPs Rhizobium") +
+  #theme_classic() +theme(axis.text.x = element_text(angle = 90)) +theme(axis.title=element_text(size=20))
+#sp5
 
-require(gridExtra)
-plot=grid.arrange(sp5, sp6, ncol=2)
-plot
-ggsave("RhizobiumBLUPComparison.pdf",plot, width =60, height = 20, units = "cm",useDingbats=FALSE)
+
+#sp6<-ggplot(data_ordered_with_BLUPS4, aes(x= reorder(Rhizobium, BLUPsRhiz, FUN =median), y=BLUPsRhiz))  +
+  #geom_point(color=wes_palette("Rushmore1")[3],alpha=0.7) +
+  #ylim(c(-0.3,0.3)) +
+  #xlab("Rhizobium genotype") +
+  #ylab("BLUPs Rhizobium (gpdResCor)") +
+  #theme_classic() +theme(axis.text.x = element_text(angle = 90)) +theme(axis.title=element_text(size=20))
+#sp6
+
+#require(gridExtra)
+#plot=grid.arrange(sp5, sp6, ncol=2)
+#plot
+#ggsave("RhizobiumBLUPComparison.pdf",plot, width =60, height = 20, units = "cm",useDingbats=FALSE)
 
 # rhiz in same plot
 sp7=ggplot() +
