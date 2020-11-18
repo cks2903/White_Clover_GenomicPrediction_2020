@@ -1,11 +1,11 @@
-library("ggplot2")
+llibrary("ggplot2")
 library("wesanderson")
 
 setwd("/Volumes/NAT_MBG-PMg/Cathrine/Nchain/Genomic_prediction_yield_July2020/V2_LessHarsh_SaraQualityFilter/Article_GP_gpd")
 
 # accuracies and force zero
 # Boxplots to compare prediction of different iSize corrected traits
-Prediction_accuracies=read.table("/Volumes/NAT_MBG-PMg/Cathrine/Nchain/Genomic_prediction_yield_July2020/V2_LessHarsh_SaraQualityFilter/ResultsOverview_differentTraits.csv",head=T,sep=",")
+Prediction_accuracies=read.table("/Volumes/NAT_MBG-PMg/Cathrine/Nchain/Genomic_prediction_yield_July2020/V2_LessHarsh_SaraQualityFilter/ResultsOverview_differentTraits_new.csv",head=T,sep=",")
 Prediction_accuracies=as.data.frame(Prediction_accuracies)
 head(Prediction_accuracies)
 Prediction_accuracies_true=Prediction_accuracies
@@ -23,7 +23,7 @@ ggplot(Prediction_accuracies, aes(x=Trait, y=Accuracy,fill=Trait)) +
   ylim(c(min(Prediction_accuracies$Accuracy),0.615)) +
   theme_classic() +theme(axis.text.x = element_text(size = 10, angle = 90,hjust=1),axis.text.y = element_text(size = 10), 
                          axis.title=element_text(size=15))
-ggsave("/Volumes/NAT_MBG-PMg/Cathrine/Nchain/Genomic_prediction_yield_July2020/V2_LessHarsh_SaraQualityFilter/Article_GP_gpd/PredictionAccuraciesOfDifferent_gpdTraits_20200924.pdf", width =30, height = 20, units = "cm",useDingbats=FALSE)
+ggsave("/Volumes/NAT_MBG-PMg/Cathrine/Nchain/Genomic_prediction_yield_July2020/V2_LessHarsh_SaraQualityFilter/Article_GP_gpd/PredictionAccuraciesOfDifferent_gpdTraits_20201118.pdf", width =30, height = 20, units = "cm",useDingbats=FALSE)
 #dev.off()
 
 
@@ -36,7 +36,7 @@ ggplot(Prediction_accuracies_true, aes(x=Trait, y=Accuracy,fill=Trait)) +
   ylim(c(min(Prediction_accuracies_true$Accuracy),0.615)) +
   theme_classic() +theme(axis.text.x = element_text(size = 10, angle = 90,hjust=1),axis.text.y = element_text(size = 10), 
                          axis.title=element_text(size=15))
-ggsave("/Volumes/NAT_MBG-PMg/Cathrine/Nchain/Genomic_prediction_yield_July2020/V2_LessHarsh_SaraQualityFilter/Article_GP_gpd/PredictionAccuraciesOfDifferent_gpdTraits_20200924_realvalues.pdf", width =30, height = 20, units = "cm",useDingbats=FALSE)
+ggsave("/Volumes/NAT_MBG-PMg/Cathrine/Nchain/Genomic_prediction_yield_July2020/V2_LessHarsh_SaraQualityFilter/Article_GP_gpd/PredictionAccuraciesOfDifferent_gpdTraits_20201118_realvalues.pdf", width =30, height = 20, units = "cm",useDingbats=FALSE)
 #dev.off()
 
 # Figure 4 in manuscript
@@ -49,6 +49,4 @@ ggplot(Prediction_accuracies_true, aes(x=Trait, y=Correlation,fill=Trait)) +
   ylim(c(min(Prediction_accuracies_true$Correlation),max(Prediction_accuracies_true$Correlation))) +
   theme_classic() +theme(axis.text.x = element_text(size = 10, angle = 90,hjust=1),axis.text.y = element_text(size = 10), 
                          axis.title=element_text(size=15))
-ggsave("/Volumes/NAT_MBG-PMg/Cathrine/Nchain/Genomic_prediction_yield_July2020/V2_LessHarsh_SaraQualityFilter/Article_GP_gpd/PredictionCorrelationsOfDifferent_gpdTraits_20200924.pdf", width =30, height = 20, units = "cm",useDingbats=FALSE)
-
-
+ggsave("/Volumes/NAT_MBG-PMg/Cathrine/Nchain/Genomic_prediction_yield_July2020/V2_LessHarsh_SaraQualityFilter/Article_GP_gpd/PredictionCorrelationsOfDifferent_gpdTraits_20201118.pdf", width =30, height = 20, units = "cm",useDingbats=FALSE)
