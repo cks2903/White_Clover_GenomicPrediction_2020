@@ -29,20 +29,19 @@ GP_GBLUP<-function(testpop){
   ##start by estimating GEBVs for training population individuals 
   ################  ################  ################  ################
   
+  gpdmeans_training=means_[-testpop,] # limit the dataframe to only the individuals allowed for training the model
+  gpdmeans_training_ready=na.omit(gpdmeans_training, cols = c("gpiCor")) # remember that gpd na inidividuals should be removed whether or not they are in the training pop or not
   
-  gpdmeans_training=gpdmeans[-testpop,] # limit the dataframe to only the individuals allowed for training the model
-  gpdmeans_training_ready=na.omit(gpdmeans_training, cols = c("gpdDay11to25")) # remember that gpd na inidividuals should be removed whether or not they are in the training pop or not
-  
-  ind_not_in_train=gpdmeans$Individual[testpop]
+  ind_not_in_train=means_$Individual[testpop]
   IndividualsToRemoveGRM=which(colnames(GRM1) %in% ind_not_in_train)
   
   GRM_trn = GRM1[-IndividualsToRemoveGRM,-IndividualsToRemoveGRM]
   
   # Run the GBLUP model on full training population to extract GEBVs
-  yNA=gpdmeans_training_ready$gpdDay11to25
+  yNA=gpdmeans_training_ready$gpiCor
   ETA=list(list(K=GRM_trn,model="RKHS"))
   GBLUP=BGLR(y=yNA,response_type = "gaussian",ETA=ETA,nIter=20000,burnIn = 5000,verbose=F,saveAt=paste("GBLUP",round))
-  matrix=cbind(as.character(gpdmeans_training_ready$Individual),as.numeric(gpdmeans_training_ready$gpdDay11to25),as.numeric(GBLUP$ETA[[1]]$u))
+  matrix=cbind(as.character(gpdmeans_training_ready$Individual),as.numeric(gpdmeans_training_ready$gpiCor),as.numeric(GBLUP$ETA[[1]]$u))
   colnames(matrix)=c("ID", "Observed", "GEBV")
   GEBV_contribution1data=as.numeric(as.character(matrix[,3]))
   
@@ -59,7 +58,7 @@ GP_GBLUP<-function(testpop){
   #GEBVpred_contr1 = GcloverReps_covar%*%solve(GcloverReps_trn + diag(0.01, 1661, 1661)) %*% GEBV_contribution1data 
   
   # Output matrix with prediction results
-  matrix1=cbind(as.character(gpdmeans$Individual[testpop]),as.numeric(gpdmeans$gpdDay11to25[testpop]),as.numeric(as.character(GEBVpred)))
+  matrix1=cbind(as.character(means_$Individual[testpop]),as.numeric(means_$gpiCor[testpop]),as.numeric(as.character(GEBVpred)))
   colnames(matrix1)=c("ID", "Observed", "GEBV")
   return(matrix1)
 }
@@ -156,16 +155,27 @@ GP_GBLUP<-function(testpop){
   data_iSize = read.table("greenhouse_area.csv",head=T,sep=",")
   data_iSize_ = data_iSize[,c(1,4)]
   d6_merged = merge(d6,data_iSize_, by="Barcode")
-  
-  fit <- lm(GPD_in_interval ~ InitialSize, data=d6_merged) 
-  ycorr <- d6_merged$GPD_in_interval - model.matrix( ~ InitialSize, data=d6_merged) %*% fit$coefficients
-  d6_merged$gpd_day11to25_iSizecor <- ycorr #this is the new corrected dry weight
 }
 
 # calculate means of genotypes
 {
-  gpdmeans=aggregate(d6_merged$gpd_day11to25_iSizecor, list(d6_merged$Clovershort), mean)
-  colnames(gpdmeans)=c("Individual","gpdDay11to25")
+  gpdmeans=aggregate(d6_merged$GPD_in_interval, list(d6_merged$Clovershort), mean)
+  colnames(gpdmeans)=c("Individual","gpi")
+  
+  isizemeans=aggregate(d6_merged$InitialSize, list(d6_merged$Clovershort), mean)
+  colnames(isizemeans)=c("Individual","iSize")
+  
+  means=cbind(gpdmeans,isizemeans)
+  means_=means[,c(1:2,4)]
+}
+
+
+# Correct GPD for the full effect of initial size after averaging
+{
+  
+  fit <- lm(gpi ~ iSize, data=means_)   
+  ycorr <- means_$gpi - model.matrix( ~ iSize, data=means_) %*% fit$coefficients
+  means_$gpiCor <- ycorr #this is the new corrected dry weight
 }
 
 
@@ -255,7 +265,7 @@ if (is.na(args[3])){
 #  Calculate heritability
 {
   print("Calculating heritability")
-  y=gpdmeans[,2]
+  y=means_$gpiCor
   
   ETA=list(list(K=GRM1,model="RKHS")) 
   GBLUP=BGLR(y=y,response_type = "gaussian",ETA=ETA,nIter=20000,burnIn = 5000,verbose=F,saveAt=paste("heritabilityestimation",round))
