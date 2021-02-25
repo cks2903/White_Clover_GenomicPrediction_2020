@@ -28,7 +28,7 @@ ggplot(Prediction_correlations, aes(x=Trait, y=Correlation,fill=Trait)) +
                          axis.title=element_text(size=15))+
   scale_y_continuous(breaks = round(seq(-0.25, 0.60, by = 0.05),1))
 
-ggsave("/Volumes/NAT_MBG-PMg/Cathrine/Nchain/Genomic_prediction_yield_July2020/V2_LessHarsh_SaraQualityFilter/Article_GP_gpd/PredictionAccuraciesOfDifferent_gpdTraits_20201118.pdf", width =30, height = 20, units = "cm",useDingbats=FALSE)
+ggsave("/Volumes/NAT_MBG-PMg/Cathrine/Nchain/Genomic_prediction_yield_July2020/V2_LessHarsh_SaraQualityFilter/Article_GP_gpd/PredictionAccuraciesOfDifferent_gpdTraits_20210225.pdf", width =30, height = 20, units = "cm",useDingbats=FALSE)
 #dev.off()
 
 
@@ -43,19 +43,19 @@ ggplot(Prediction_correlations_true, aes(x=Trait, y=Correlation,fill=Trait)) +
                          axis.title=element_text(size=15)) +
 scale_y_continuous(breaks = round(seq(-0.25, 0.60, by = 0.05),1))
 
-ggsave("/Volumes/NAT_MBG-PMg/Cathrine/Nchain/Genomic_prediction_yield_July2020/V2_LessHarsh_SaraQualityFilter/GBLUP_averages_20201120/PredictionCorOfDifferent_gpdTraits_20210121_realvalues.pdf", width =30, height = 20, units = "cm",useDingbats=FALSE)
+ggsave("/Volumes/NAT_MBG-PMg/Cathrine/Nchain/Genomic_prediction_yield_July2020/V2_LessHarsh_SaraQualityFilter/GBLUP_averages_20201120/PredictionCorOfDifferent_gpdTraits_20210225_realvalues.pdf", width =30, height = 20, units = "cm",useDingbats=FALSE)
 #dev.off()
 
 # Figure 4 in manuscript
 #png(file="PredictionAccuraciesOfDifferent_gpdTraits_20200911_realvalues.png",width=20,height=10,units="cm",res=300)
-ggplot(Prediction_correlations_true, aes(x=Trait, y=Accuracy,fill=Trait)) + 
+ggplot(Prediction_correlations_true, aes(x=Trait, y=Accuracy_fromh2,fill=Trait)) + 
   geom_boxplot(aes(fill = Trait))+
   geom_point(aes(fill = Trait), size = 2, shape = 21, position = position_jitterdodge()) +
   scale_fill_manual(values=c(wes_palette("Rushmore1")[3],wes_palette("Rushmore1")[2],"brown4","cadetblue",wes_palette("Rushmore1")[4])) +
   ylim(c(min(Prediction_correlations_true$Accuracy),0.615)) +
   theme_classic() +theme(axis.text.x = element_text(size = 10, angle = 90,hjust=1),axis.text.y = element_text(size = 10), 
                          axis.title=element_text(size=15)) +
-  scale_y_continuous(breaks = round(seq(-0.25, 0.60, by = 0.05),1))
+  scale_y_continuous(breaks = round(seq(-0.40, 0.60, by = 0.05),1)) 
 
-ggsave("/Volumes/NAT_MBG-PMg/Cathrine/Nchain/Genomic_prediction_yield_July2020/V2_LessHarsh_SaraQualityFilter/GBLUP_averages_20201120/PredictionAccOfDifferent_gpdTraits_20210121_realvalues.pdf", width =30, height = 20, units = "cm",useDingbats=FALSE)
+ggsave("/Volumes/NAT_MBG-PMg/Cathrine/Nchain/Genomic_prediction_yield_July2020/V2_LessHarsh_SaraQualityFilter/GBLUP_averages_20201120/PredictionAccOfDifferent_gpdTraits_20210225_realvalues.pdf", width =30, height = 20, units = "cm",useDingbats=FALSE)
 #dev.off()
