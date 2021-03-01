@@ -1,0 +1,14 @@
+cd /home/cks/NChain/faststorage/GWASimplementation/Averages_20210215
+
+source ~/miniconda2/etc/profile.d/conda.sh
+conda activate myproject
+
+
+python /home/cks/NChain/faststorage/GWASimplementation/atgwas/src/gwa.py -o "" -a emmax -m 6 -r "Phenotypes_20210215.csv" -f "Geno_LDfiltered0.5and1.00_20200728_noextracolumns.csv" --data_format="diploid_int" 
+
+cd /home/cks/NChain/faststorage/GWASimplementation/Averages_20210215/results
+source ~/miniconda3/etc/profile.d/conda.sh
+conda activate Rprogram
+
+qx --no-scratch -A nchain Rscript GWAS_RF_iSizeFromiSize_plots_ClusterEd_20210215.R _pid2_gpd_emmax_none_t75.pvals "gpd"
+qx --no-scratch -A nchain Rscript GWAS_RF_iSizeFromiSize_plots_ClusterEd_20210215.R _pid1_iSizeMean_emmax_none_t75.pvals "iSize"
