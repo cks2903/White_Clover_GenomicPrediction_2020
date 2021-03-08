@@ -17,6 +17,7 @@
 
 library(corrgram)
 library(ggplot2)
+library(agricolae)
 
 # iSize
 
@@ -219,6 +220,62 @@ head(Large_df)
 Correlations_numeric_matrix = Large_df[,2:ncol(Large_df)]
 # correlations
 
+correlation(Correlations_numeric_matrix[,1],Correlations_numeric_matrix[,2], method = "pearson") # p = 4.42e-10
+correlation(Correlations_numeric_matrix[,1],Correlations_numeric_matrix[,3], method = "pearson") # p = 0
+correlation(Correlations_numeric_matrix[,1],Correlations_numeric_matrix[,4], method = "pearson") # p = 3.200289e-06 
+correlation(Correlations_numeric_matrix[,1],Correlations_numeric_matrix[,5], method = "pearson") #p =  0.1704952 
+correlation(Correlations_numeric_matrix[,1],Correlations_numeric_matrix[,6], method = "pearson") #p =   0.860095 
+correlation(Correlations_numeric_matrix[,1],Correlations_numeric_matrix[,7], method = "pearson") #p =   0
+correlation(Correlations_numeric_matrix[,1],Correlations_numeric_matrix[,8], method = "pearson") #p =   0.01927329 
+correlation(Correlations_numeric_matrix[,1],Correlations_numeric_matrix[,9], method = "pearson") #p =   2.58915e-09 
+correlation(Correlations_numeric_matrix[,1],Correlations_numeric_matrix[,10], method = "pearson") #p =   0.1373854 
+
+correlation(Correlations_numeric_matrix[,2],Correlations_numeric_matrix[,3], method = "pearson") # p = 1.011349e-09 
+correlation(Correlations_numeric_matrix[,2],Correlations_numeric_matrix[,4], method = "pearson") # p = 0
+correlation(Correlations_numeric_matrix[,2],Correlations_numeric_matrix[,5], method = "pearson") # p =  0.7941645 
+correlation(Correlations_numeric_matrix[,2],Correlations_numeric_matrix[,6], method = "pearson") # p =  1
+correlation(Correlations_numeric_matrix[,2],Correlations_numeric_matrix[,7], method = "pearson") # p =   2.479001e-05 
+correlation(Correlations_numeric_matrix[,2],Correlations_numeric_matrix[,8], method = "pearson") # p =   0
+correlation(Correlations_numeric_matrix[,2],Correlations_numeric_matrix[,9], method = "pearson") # p =   0.006458724 
+correlation(Correlations_numeric_matrix[,2],Correlations_numeric_matrix[,10], method = "pearson") # p =    0.7241223 
+
+correlation(Correlations_numeric_matrix[,3],Correlations_numeric_matrix[,4], method = "pearson") # p = 4.24837e-05 
+correlation(Correlations_numeric_matrix[,3],Correlations_numeric_matrix[,5], method = "pearson") # p= 0.001177184 
+correlation(Correlations_numeric_matrix[,3],Correlations_numeric_matrix[,6], method = "pearson") # p= 0.6366122 
+correlation(Correlations_numeric_matrix[,3],Correlations_numeric_matrix[,7], method = "pearson") # p= 0
+correlation(Correlations_numeric_matrix[,3],Correlations_numeric_matrix[,8], method = "pearson") # p= 0.05909436 
+correlation(Correlations_numeric_matrix[,3],Correlations_numeric_matrix[,9], method = "pearson") # p= 0.04558599 
+correlation(Correlations_numeric_matrix[,3],Correlations_numeric_matrix[,10], method = "pearson") # p= 0.05707394 
+
+
+correlation(Correlations_numeric_matrix[,4],Correlations_numeric_matrix[,5], method = "pearson") # p = 0.3486939 
+correlation(Correlations_numeric_matrix[,4],Correlations_numeric_matrix[,6], method = "pearson") # p = 0
+correlation(Correlations_numeric_matrix[,4],Correlations_numeric_matrix[,7], method = "pearson") # p = 0.007824287 
+correlation(Correlations_numeric_matrix[,4],Correlations_numeric_matrix[,8], method = "pearson") # p = 0
+correlation(Correlations_numeric_matrix[,4],Correlations_numeric_matrix[,9], method = "pearson") # p = 0.009122662 
+correlation(Correlations_numeric_matrix[,4],Correlations_numeric_matrix[,10], method = "pearson") # p = 6.952217e-13 
+
+
+correlation(Correlations_numeric_matrix[,5],Correlations_numeric_matrix[,6], method = "pearson") # p = 0.08635479 
+correlation(Correlations_numeric_matrix[,5],Correlations_numeric_matrix[,7], method = "pearson") # p = 2.567022e-10  
+correlation(Correlations_numeric_matrix[,5],Correlations_numeric_matrix[,8], method = "pearson") # p = 0.375868  
+correlation(Correlations_numeric_matrix[,5],Correlations_numeric_matrix[,9], method = "pearson") # p = 0
+correlation(Correlations_numeric_matrix[,5],Correlations_numeric_matrix[,10], method = "pearson") # p = 0.2579934 
+
+correlation(Correlations_numeric_matrix[,6],Correlations_numeric_matrix[,7], method = "pearson") # p =  0.5121837 
+correlation(Correlations_numeric_matrix[,6],Correlations_numeric_matrix[,8], method = "pearson") # p =  0
+correlation(Correlations_numeric_matrix[,6],Correlations_numeric_matrix[,9], method = "pearson") # p =  0.3944839 
+correlation(Correlations_numeric_matrix[,6],Correlations_numeric_matrix[,10], method = "pearson") # p =  0
+
+correlation(Correlations_numeric_matrix[,7],Correlations_numeric_matrix[,8], method = "pearson") # p =   0.1965938 
+correlation(Correlations_numeric_matrix[,7],Correlations_numeric_matrix[,9], method = "pearson") # p =   0.001380795 
+correlation(Correlations_numeric_matrix[,7],Correlations_numeric_matrix[,10], method = "pearson") # p =   0.1664421 
+
+correlation(Correlations_numeric_matrix[,8],Correlations_numeric_matrix[,9], method = "pearson") # p =   0.1792277 
+correlation(Correlations_numeric_matrix[,8],Correlations_numeric_matrix[,10], method = "pearson") # p =   0
+
+correlation(Correlations_numeric_matrix[,9],Correlations_numeric_matrix[,10], method = "pearson") # p =    0.6834481 
+
 
 
 path="/Volumes/NAT_MBG-PMg/Cathrine/Nchain/Genomic_prediction_yield_July2020/V2_LessHarsh_SaraQualityFilter/Article_GP_gpd/"
@@ -254,9 +311,3 @@ summary(fit3)
 TotalGEBV3=model.matrix( ~ gpdDay11to25_GEBV, data=Large_df) %*% fit3$coefficients
 plot(Large_df$gpdResCor_obs ~ TotalGEBV3)
 cor(data.matrix(Large_df$gpdResCor_obs), data.matrix(TotalGEBV3)) # 0.23
-
-
-
-
-
-
