@@ -85,3 +85,8 @@ Effectplots <- function(data,m,trait){
 Effectplots(data_sorted,25,"iSize")
 
 Effectplots(data_sorted,25,"gpd")
+
+
+Effectplots(data_sorted1,25,"iSize")
+
+Effectplots(data_sorted1,25,"gpd")
