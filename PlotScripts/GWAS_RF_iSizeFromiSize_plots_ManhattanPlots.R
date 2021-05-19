@@ -22,7 +22,7 @@ setwd("/home/cks/NChain/faststorage/WHITE_CLOVER/GP_V3_July2020_CKS_LessQualityF
 list.files()
 
 file_list <- list.files(pattern="_pid1_iSizeMean")
-length(file_list)==60 #check
+length(file_list)==600 #check
 print("p-values from this many")
 print(length(file_list))
 
