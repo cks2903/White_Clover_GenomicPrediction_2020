@@ -1,0 +1,50 @@
+#Make GRM from genotype file
+args=commandArgs(trailingOnly = TRUE)
+
+geno <- read.table("Geno_LDfiltered0.5and1.00_20200724.csv",sep=",",header=T)
+dim(geno)
+geno1=geno[with(geno, order(CHROM,POS)), ]
+
+geno2 <- read.table(args[1],sep=",",header=T)
+
+# remove columns not needed for GRM construction
+geno3=geno2[,3:164]
+geno3=geno3[ , order(colnames(geno3))]
+geno3t=t(geno3)
+
+
+# VanRaden (2009) method 1
+M=dim(geno3t)[2]
+N=dim(geno3t)[1]
+
+
+CALCULATE_P_MULTIPLIED_BY_Q=function(SNP_column){
+  SNP_column=data.matrix(SNP_column)
+  countsfirstallele=sum(SNP_column,na.rm=T)
+  p_freq=countsfirstallele/(length(na.omit(SNP_column))*2)
+  q_freq=1-p_freq
+  value=p_freq*q_freq
+  return(value)
+}
+
+# Apply function to all columns
+# Sum across results
+# 
+
+results=apply(geno3t,2,CALCULATE_P_MULTIPLIED_BY_Q)
+SUM=sum(results)
+
+# 
+Z <- scale(geno3t,scale=FALSE) #Centered genotype matrix. Every column (SNP) get a mean of 0
+Z[is.na(Z)] <- 0 #Set NA to zero in scaled matrix. That is setting them equal to avg.
+
+#Calculate GRM matrix
+G=(Z%*%t(Z))/(2*SUM)
+
+write.table(G,file=args[2],sep=",",col.names=T,row.names=F,quote=F)
+
+
+
+
+
+
