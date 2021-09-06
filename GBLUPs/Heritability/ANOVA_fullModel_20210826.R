@@ -18,16 +18,13 @@ Plants=unique(df$Clover[SM42])
 set.seed(15)
 
 # how many plants is one inoculum normally associated with? 
-sample=sample(Plants,5)
-print(sample) # Aoost_02 Llanc_04 Aoost_04 Aalon_05 Llanc_05
-
+sample=c("Aoost_02","Llanc_04","Aoost_04","Aalon_05","Llanc_05")
 remove=which((df$Clover[SM42] %in% sample)==FALSE)
 d7=df[-SM42[remove],]
 nrow(d7)
 
 
 d7$CloverRhiz=paste(d7$Clover,d7$Rhizobium,sep=":")
-d7=d7[which(is.na(d7$gpiCor)==FALSE),]
 
 # Make data ready for Bayz
 d7$Clover=as.factor(d7$Clover)
@@ -68,7 +65,10 @@ varcolumns = ( substr(colnames(fit3$Samples),0,3)=="var" )
 proportions = t(apply(fit3$Samples[,varcolumns],1,function(x){x/sum(x)}))
 HPDbayz(proportions, bound="prob")
 
-fit4 = bayz(gpi ~rn(Clover) + fixf(NS) + fixf(EW) + rn(Rhizobium) + fixf(Inoculation.date) +rn(CloverRhiz), data=d7,chain=c(20000,5000,10))
+
+d7_gpi=d7[which(is.na(d7$gpiCor)==FALSE),]
+
+fit4 = bayz(gpi ~rn(Clover) + fixf(NS) + fixf(EW) + rn(Rhizobium) + fixf(Inoculation.date) +rn(CloverRhiz), data=d7_gpi,chain=c(20000,5000,10))
 summary(fit4)
 HPDbayz(fit4$Samples,bound="var") # to get confindence intervals
 varcolumns = ( substr(colnames(fit4$Samples),0,3)=="var" )
@@ -76,24 +76,13 @@ proportions = t(apply(fit4$Samples[,varcolumns],1,function(x){x/sum(x)}))
 HPDbayz(proportions, bound="prob")
 
 
-fit5 = bayz(gpiCor ~ rn(Clover) + fixf(NS) + fixf(EW) + rn(Rhizobium) + fixf(Inoculation.date) +rn(CloverRhiz), data=d7,chain=c(20000,5000,10))
+fit5 = bayz(gpiCor ~ rn(Clover) + fixf(NS) + fixf(EW) + rn(Rhizobium) + fixf(Inoculation.date) +rn(CloverRhiz), data=d7_gpi,chain=c(20000,5000,10))
 summary(fit5)
 HPDbayz(fit5$Samples,bound="var") # to get confindence intervals
 varcolumns = ( substr(colnames(fit5$Samples),0,3)=="var" )
 proportions = t(apply(fit5$Samples[,varcolumns],1,function(x){x/sum(x)}))
 HPDbayz(proportions, bound="prob")
 
-
-
-# then see what it does to include iSize to gpd
-
-d7$iSize=as.numeric(as.character(d7$iSize))
-fit6 = bayz(gpd ~ rn(Clover) + fixf(NS) + fixf(EW) + rn(Rhizobium) + fixf(Inoculation.date) +rn(CloverRhiz) +freg(iSize), data=d7,chain=c(20000,5000,10))
-summary(fit6)
-HPDbayz(fit6$Samples,bound="var") # to get confindence intervals
-varcolumns = ( substr(colnames(fit6$Samples),0,3)=="var" )
-proportions = t(apply(fit6$Samples[,varcolumns],1,function(x){x/sum(x)}))
-HPDbayz(proportions, bound="prob")
 
 
 #test signficanse of including iSize as fixed effect using lme4
@@ -107,10 +96,10 @@ summary(fit7_without)
 anova(fit7_with, fit7_without)
 
 
-fit8_with = lmer(gpi ~ (1|Clover) + as.factor(NS) + as.factor(EW) + (1|Rhizobium) +as.factor(Inoculation.date) + (1|CloverRhiz) + iSize, data=d7, REML=F)
+fit8_with = lmer(gpi ~ (1|Clover) + as.factor(NS) + as.factor(EW) + (1|Rhizobium) +as.factor(Inoculation.date) + (1|CloverRhiz) + iSize, data=d7_gpi, REML=F)
 summary(fit8_with)
 
-fit8_without = lmer(gpi ~ (1|Clover) + as.factor(NS) + as.factor(EW) + (1|Rhizobium) +as.factor(Inoculation.date) + (1|CloverRhiz), data=d7, REML=F)
+fit8_without = lmer(gpi ~ (1|Clover) + as.factor(NS) + as.factor(EW) + (1|Rhizobium) +as.factor(Inoculation.date) + (1|CloverRhiz), data=d7_gpi, REML=F)
 summary(fit8_without)
 anova(fit8_with, fit8_without)
 
