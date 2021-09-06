@@ -83,3 +83,38 @@ varcolumns = ( substr(colnames(fit5$Samples),0,3)=="var" )
 proportions = t(apply(fit5$Samples[,varcolumns],1,function(x){x/sum(x)}))
 HPDbayz(proportions, bound="prob")
 
+
+
+# then see what it does to include iSize to gpd
+
+d7$iSize=as.numeric(as.character(d7$iSize))
+fit6 = bayz(gpd ~ rn(Clover) + fixf(NS) + fixf(EW) + rn(Rhizobium) + fixf(Inoculation.date) +rn(CloverRhiz) +freg(iSize), data=d7,chain=c(20000,5000,10))
+summary(fit6)
+HPDbayz(fit6$Samples,bound="var") # to get confindence intervals
+varcolumns = ( substr(colnames(fit6$Samples),0,3)=="var" )
+proportions = t(apply(fit6$Samples[,varcolumns],1,function(x){x/sum(x)}))
+HPDbayz(proportions, bound="prob")
+
+
+#test signficanse of including iSize as fixed effect using lme4
+library("lme4")
+
+fit7_with = lmer(gpd ~ (1|Clover) + as.factor(NS) + as.factor(EW) + (1|Rhizobium) +as.factor(Inoculation.date) + (1|CloverRhiz) + iSize, data=d7, REML=F)
+summary(fit7_with)
+
+fit7_without = lmer(gpd ~ (1|Clover) + as.factor(NS) + as.factor(EW) + (1|Rhizobium) +as.factor(Inoculation.date) + (1|CloverRhiz), data=d7, REML=F)
+summary(fit7_without)
+anova(fit7_with, fit7_without)
+
+
+fit8_with = lmer(gpi ~ (1|Clover) + as.factor(NS) + as.factor(EW) + (1|Rhizobium) +as.factor(Inoculation.date) + (1|CloverRhiz) + iSize, data=d7, REML=F)
+summary(fit8_with)
+
+fit8_without = lmer(gpi ~ (1|Clover) + as.factor(NS) + as.factor(EW) + (1|Rhizobium) +as.factor(Inoculation.date) + (1|CloverRhiz), data=d7, REML=F)
+summary(fit8_without)
+anova(fit8_with, fit8_without)
+
+
+
+
+
